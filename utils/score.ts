@@ -2,6 +2,10 @@ import Decimal from "decimal.js";
 import type { DungeonDefinition } from "./dungeons";
 
 export interface CalculatedScores {
+  rawBaseScore: {
+    Tyrannical: Decimal;
+    Fortified: Decimal;
+  };
   baseScore: {
     Tyrannical: Decimal;
     Fortified: Decimal;
@@ -56,22 +60,19 @@ export function calculateScores(
   dungeon: DungeonDefinition,
   dungeonTime: OverallDungeonTime
 ): CalculatedScores {
-  const tyrannicalScore = calculateBaseScore(
+  const tyrannicalRawScore = calculateBaseScore(
     dungeon,
     dungeonTime.Tyrannical.level,
     dungeonTime.Tyrannical.duration
-  )
-    .times(10)
-    .round()
-    .dividedBy(10);
-  const fortifiedScore = calculateBaseScore(
+  );
+  const tyrannicalScore = tyrannicalRawScore.times(10).round().dividedBy(10);
+
+  const fortifiedRawScore = calculateBaseScore(
     dungeon,
     dungeonTime.Fortified.level,
     dungeonTime.Fortified.duration
-  )
-    .times(10)
-    .round()
-    .dividedBy(10);
+  );
+  const fortifiedScore = fortifiedRawScore.times(10).round().dividedBy(10);
 
   const higherScore = tyrannicalScore.greaterThan(fortifiedScore)
     ? "Tyrannical"
@@ -80,19 +81,40 @@ export function calculateScores(
   const weightHeigher = 1.5;
   const weightLower = 0.5;
 
-  const weightedRawScoreTyrannical = tyrannicalScore.times(
-    higherScore === "Tyrannical" ? weightHeigher : weightLower
+  const weightTyrannical =
+    higherScore === "Tyrannical" ? weightHeigher : weightLower;
+  const weightForitifed =
+    higherScore === "Fortified" ? weightHeigher : weightLower;
+
+  // weighted scores are calculated as actual floats, because why not
+  const weightedRawScoreTyrannical = new Decimal(
+    tyrannicalScore.toNumber() * weightTyrannical
   );
 
-  const weightedRawScoreFortified = fortifiedScore.times(
-    higherScore === "Fortified" ? weightHeigher : weightLower
+  const weightedRawScoreFortified = new Decimal(
+    fortifiedScore.toNumber() * weightForitifed
   );
 
-  const totalRawScore = weightedRawScoreFortified.plus(
-    weightedRawScoreTyrannical
+  // using decimal.plus actually doesnt work here
+  // const totalRawScore = weightedRawScoreFortified.plus(weightedRawScoreTyrannical);
+
+  // instead we add the floats (which is ridiculous, but it's how they do it...)
+  // const totalRawScore = tyrannicalRawScore
+  //   .times(weightTyrannical)
+  //   .plus(fortifiedRawScore.times(weightForitifed));
+  const totalRawScore = new Decimal(
+    weightedRawScoreFortified.toNumber() + weightedRawScoreTyrannical.toNumber()
   );
+
+  // const totalRawScore = tyrannicalScore
+  //   .times(weightTyrannical)
+  //   .plus(fortifiedScore.times(weightForitifed));
 
   return {
+    rawBaseScore: {
+      Tyrannical: tyrannicalRawScore,
+      Fortified: fortifiedRawScore,
+    },
     baseScore: {
       Tyrannical: tyrannicalScore.times(10).round().dividedBy(10), // Math.round(tyrannicalScore * 10) / 10,
       Fortified: fortifiedScore.times(10).round().dividedBy(10), // Math.round(fortifiedScore * 10) / 10,
@@ -107,16 +129,28 @@ export function calculateScores(
     },
     higherScore,
     totalScore: totalRawScore.times(10).round().dividedBy(10),
-    totalRawScore: totalRawScore,
+    totalRawScore: new Decimal(
+      tyrannicalRawScore.toNumber() * weightTyrannical
+    ).plus(new Decimal(fortifiedRawScore.toNumber() * weightForitifed)),
   };
 }
 
 export function calculatePlayerScore(
   scores: Record<DUNGEON_SHORTS, CalculatedScores>
 ): Decimal {
-  return Object.values(scores).reduce((sum, score) => {
-    return score.totalRawScore.plus(sum);
-  }, new Decimal(0));
+  let sum = new Decimal(0);
+
+  for (const score of Object.values(scores)) {
+    sum = score.totalRawScore.plus(sum);
+  }
+
+  // return sum;
+  return sum.times(10).round().dividedBy(10);
+  // return new Decimal(
+  //   Object.values(scores).reduce((sum, score) => {
+  //     return score.totalScore.toNumber() + sum;
+  //   }, 0)
+  // );
 }
 
 export function getAffixCount(level: number) {

@@ -1,6 +1,6 @@
 export interface DungeonTime {
   level: number;
-  plus: 1 | 2 | 3;
+  plus: number;
   duration: number;
 }
 

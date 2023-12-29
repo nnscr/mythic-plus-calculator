@@ -1,7 +1,3 @@
-export function time(minutes: number, seconds: number) {
-  return minutes * 60_000 + seconds * 60;
-}
-
 /**
  * Converts { level: 15, plus: 3 } to "15+++"
  * @param level

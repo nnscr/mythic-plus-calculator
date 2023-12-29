@@ -70,9 +70,9 @@ export function useUseRaiderIoImport() {
     // check if calculated player scores matches the ones from raider.io
     for (const [dungeon, timings] of Object.entries(newDungeonData)) {
       const fortified =
-        playerData.scores[dungeon as DUNGEON_SHORTS].value.baseScore.Fortified;
+        playerData.scores[dungeon as DUNGEON_SHORTS].baseScore.Fortified;
       const tyrannical =
-        playerData.scores[dungeon as DUNGEON_SHORTS].value.baseScore.Tyrannical;
+        playerData.scores[dungeon as DUNGEON_SHORTS].baseScore.Tyrannical;
 
       const expectedFortified =
         newDungeonData[dungeon as DUNGEON_SHORTS].Fortified.score;

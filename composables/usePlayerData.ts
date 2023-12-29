@@ -1,8 +1,6 @@
-import { Decimal } from "decimal.js";
 import { type DUNGEON_SHORTS } from "../utils/dungeons";
-import { time } from "../utils/formatting";
-import { type OverallDungeonTime } from "../utils/times";
 import { calculateScores } from "../utils/score";
+import { type OverallDungeonTime } from "../utils/times";
 
 export const usePlayerData = defineStore("playerData", () => {
   const times: Record<DUNGEON_SHORTS, OverallDungeonTime> = reactive({

@@ -1,5 +1,3 @@
-import { time } from "./formatting";
-
 export type DUNGEON_SHORTS =
   | "FALL"
   | "RISE"
@@ -50,4 +48,9 @@ function dungeon(
     plus2: plus2 ?? plus1 * 0.8,
     plus3: plus3 ?? plus1 * 0.6,
   } as const;
+}
+
+// helper function to specifiy dungeon max times
+function time(minutes: number, seconds: number) {
+  return minutes * 60_000 + seconds * 60;
 }
