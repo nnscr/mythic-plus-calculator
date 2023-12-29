@@ -3,8 +3,8 @@
  * @param level
  * @param plus
  */
-export function formatKeyLevel(level: number, plus: 1 | 2 | 3) {
-  return `${level}${"+".repeat(plus)}`;
+export function formatKeyPlus(plus: number) {
+  return `${"+".repeat(plus)}`;
 }
 
 export function formatSeconds(millis: number) {

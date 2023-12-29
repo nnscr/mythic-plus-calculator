@@ -29,30 +29,17 @@ const seconds = computed({
 </script>
 
 <template>
-  <div class="inline-flex flex-row gap-2 bg-slate-900 rounded items-center">
+  <div class="inline-flex w-24 flex-row gap-2 items-center input !p-0">
     <input
       type="number"
-      class="w-9 text-center bg-transparent border-0 pl-2 py-1"
+      class="w-9 text-center bg-transparent border-0 pl-2 py-1 no-spin"
       v-model="minutes"
     />
     <span>:</span>
     <input
       type="number"
-      class="w-9 text-center bg-transparent border-0 pr-2 py-1"
+      class="w-9 text-center bg-transparent border-0 pr-2 py-1 no-spin"
       v-model="seconds"
     />
   </div>
 </template>
-
-<style scoped>
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-</style>

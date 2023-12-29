@@ -18,36 +18,24 @@ async function importCharacter(
 </script>
 
 <template>
-  <div class="text-black">
-    <select v-model="region">
+  <div class="text-black flex gap-1">
+    <select v-model="region" class="input">
       <option value="eu">EU</option>
       <option value="us">US</option>
     </select>
-    <input type="text" v-model="realm" />
-    <input type="text" v-model="character" />
-    <button
-      @click="importCharacter(region, realm, character)"
-      class="rounded bg-teal-500 px-3 py-1 text-white"
-    >
+    <input type="text" v-model="realm" class="input" />
+    <input type="text" v-model="character" class="input" />
+    <button @click="importCharacter(region, realm, character)" class="button">
       Import
     </button>
 
-    <button
-      @click="importCharacter('EU', 'Tirion', 'Allonsy')"
-      class="rounded bg-teal-500 px-3 py-1 text-white"
-    >
+    <button @click="importCharacter('EU', 'Tirion', 'Allonsy')" class="button">
       Allonsy
     </button>
-    <button
-      @click="importCharacter('EU', 'Arthas', 'Crossair')"
-      class="rounded bg-teal-500 px-3 py-1 text-white"
-    >
+    <button @click="importCharacter('EU', 'Arthas', 'Crossair')" class="button">
       Crizzy
     </button>
-    <button
-      @click="importCharacter('EU', 'Arygos', 'Xynila')"
-      class="rounded bg-teal-500 px-3 py-1 text-white"
-    >
+    <button @click="importCharacter('EU', 'Arygos', 'Xynila')" class="button">
       Brian
     </button>
   </div>

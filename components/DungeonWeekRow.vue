@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePlayerData } from "../composables/usePlayerData";
-import { formatKeyLevel, formatSeconds } from "../utils/formatting";
+import { formatSeconds } from "../utils/formatting";
 
 const props = defineProps<{
   dungeon: DungeonDefinition;
@@ -10,81 +10,70 @@ const props = defineProps<{
 const playerData = usePlayerData();
 const time = computed(() => playerData.times[props.dungeon.short][props.week]);
 const score = computed(() => playerData.scores[props.dungeon.short]);
-
-const plus1 = 100;
-const plus2 = (100 / props.dungeon.plus1) * props.dungeon.plus2;
-const plus3 = (100 / props.dungeon.plus1) * props.dungeon.plus3;
-
-const actual = computed(
-  () => (100 / props.dungeon.plus1) * time.value.duration
-);
-
-const inTime = computed(() => time.value.duration <= props.dungeon.plus1);
 </script>
 
 <template>
   <div
-    class="mb-2 rounded bg-slate-600 p-4 border-slate-600 border"
+    class="mb-2 rounded bg-slate-600 px-4 py-2 border-slate-600 border"
     :class="{ '!border-lime-500': score.higherScore === week }"
   >
-    <h3>{{ week }}</h3>
-    <div>
-      <b>Level:</b>
-      {{ formatKeyLevel(time.level, time.plus) }}
-      <input type="number" v-model="time.level" />
-    </div>
-    <div>
-      <b>Time:</b>
-      {{ formatSeconds(time.duration) }}
-      /
-      {{ formatSeconds(dungeon.plus1) }}
+    <div class="flex flex-row gap-3 items-start">
+      <div class="flex flex-col items-center px-10 text-center text-white">
+        <h3 class="text-xl">{{ week }}</h3>
+        <!-- {{ time.level }} -->
+        <!-- {{ formatKeyLevel(time.level, time.plus) }} -->
 
-      ({{ time.duration }} / {{ dungeon.plus1 }})
-    </div>
+        <div class="flex flex-col">
+          <div class="cursor-pointer h-8" @click="time.level += 1">
+            <Icon name="octicon:chevron-up-12"></Icon>
+          </div>
 
-    <div class="h-6 w-full text-white relative">
-      <div
-        class="absolute top-0 text-sm bg-lime-900 rounded text-right px-1 shadow-lg"
-        :style="{ width: `${plus1}%` }"
-        @click="time.duration = dungeon.plus1"
-      >
-        {{ formatSeconds(dungeon.plus1) }}
+          <input
+            type="number"
+            v-model="time.level"
+            class="input no-spin w-12 text-center"
+          />
+
+          <div class="cursor-pointer h-6" @click="time.level -= 1">
+            <Icon name="octicon:chevron-down-12"></Icon>
+          </div>
+        </div>
+        <!-- {{ formatKeyPlus(time.plus) }} -->
       </div>
+      <div class="grow">
+        <div class="flex flex-row justify-stretch">
+          <div class="flex flex-col grow text-white">
+            <b>Time:</b>
+            <!-- {{ formatSeconds(time.duration) }} -->
 
-      <div
-        class="absolute top-0 text-sm bg-lime-700 rounded text-right px-1 shadow-lg"
-        :style="{ width: `${plus2}%` }"
-        @click="time.duration = dungeon.plus2"
-      >
-        {{ formatSeconds(dungeon.plus2) }}
+            <div class="flex flex-row items-center gap-2">
+              <TimeInput v-model="time.duration"></TimeInput>
+              <div>
+                /
+                {{ formatSeconds(dungeon.plus1) }}
+              </div>
+            </div>
+
+            <!-- ({{ time.duration }} / {{ dungeon.plus1 }}) -->
+          </div>
+
+          <div class="flex flex-col grow">
+            <b>Base Score:</b>
+            {{ score.baseScore[week] }}
+          </div>
+
+          <div class="flex flex-col grow text-white">
+            <b>Final Score:</b>
+            {{ score.weightedScore[week] }}
+          </div>
+        </div>
+
+        <!-- <input v-model="time.duration" type="number" /> -->
+
+        <!-- <div class="flex flex-row items-end gap-3"> -->
+        <TimerBar v-bind="{ dungeon, time }" />
+        <!-- </div> -->
       </div>
-
-      <div
-        class="absolute top-0 text-sm bg-lime-500 rounded text-right px-1 shadow-lg"
-        :style="{ width: `${plus3}%` }"
-        @click="time.duration = dungeon.plus3"
-      >
-        {{ formatSeconds(dungeon.plus3) }}
-      </div>
-
-      <div
-        v-if="inTime"
-        class="absolute top-0 w-1 h-7 -mt-1 bg-white rounded shadow-lg -ml-1"
-        :style="{ left: `${actual}%` }"
-      ></div>
     </div>
-
-    <div>
-      <b>Base Score:</b>
-      {{ score.baseScore[week] }}
-    </div>
-
-    <div>
-      <b>Weighted Score:</b>
-      {{ score.weightedScore[week] }}
-    </div>
-
-    <!-- <input v-model="time.duration" type="number" /> -->
-    <TimeInput v-model="time.duration"></TimeInput>
   </div>
 </template>
