@@ -14,11 +14,11 @@ const score = computed(() => playerData.scores[props.dungeon.short]);
 
 <template>
   <div
-    class="mb-2 rounded bg-slate-600 px-4 py-2 border-slate-600 border"
+    class="mb-2 rounded bg-slate-700 px-4 py-2 border-slate-600 border text-white"
     :class="{ '!border-lime-500': score.higherScore === week }"
   >
     <div class="flex flex-row gap-3 items-start">
-      <div class="flex flex-col items-center px-10 text-center text-white">
+      <div class="flex flex-col items-center px-10 text-center">
         <h3 class="text-xl">{{ week }}</h3>
         <!-- {{ time.level }} -->
         <!-- {{ formatKeyLevel(time.level, time.plus) }} -->
@@ -59,12 +59,12 @@ const score = computed(() => playerData.scores[props.dungeon.short]);
 
           <div class="flex flex-col grow">
             <b>Base Score:</b>
-            {{ score.baseScore[week] }}
+            {{ score.baseScore[week].toFixed(1) }}
           </div>
 
           <div class="flex flex-col grow text-white">
             <b>Final Score:</b>
-            {{ score.weightedScore[week] }}
+            {{ score.weightedScore[week].toFixed(1) }}
           </div>
         </div>
 

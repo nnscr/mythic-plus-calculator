@@ -1,13 +1,26 @@
 <script setup lang="ts">
-import { dungeons } from "./utils/dungeons";
+import { dungeons, type DUNGEON_SHORTS } from "./utils/dungeons";
 
 useHead({
   bodyAttrs: {
     class: "bg-slate-900 p-5 text-white",
   },
+  title: "Twinis M+ Calculator",
+  link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
 });
 
 const playerData = usePlayerData();
+
+function setAll(level: number, week: "Tyrannical" | "Fortified") {
+  for (const dungeon of Object.keys(dungeons)) {
+    if (playerData.times[dungeon as DUNGEON_SHORTS][week].level >= level) {
+      continue;
+    }
+
+    playerData.times[dungeon as DUNGEON_SHORTS][week].level = level;
+  }
+}
+const setAllLevel = ref(20);
 </script>
 
 <template>
@@ -19,8 +32,20 @@ const playerData = usePlayerData();
     >
       <div class="text-2xl">Total Score</div>
       <div class="text-5xl">
-        {{ playerData.playerScore }}
+        {{ playerData.playerScore.toFixed(1) }}
       </div>
+    </div>
+
+    <div class="flex flex-row items-center gap-1">
+      <div class="mr-3">Set all to level</div>
+
+      <input v-model="setAllLevel" class="input" />
+      <button class="button" @click="setAll(setAllLevel, 'Fortified')">
+        Fortified
+      </button>
+      <button class="button" @click="setAll(setAllLevel, 'Tyrannical')">
+        Tyrannical
+      </button>
     </div>
 
     <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />

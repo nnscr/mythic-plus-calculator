@@ -31,10 +31,20 @@ export function calculateBaseScore(
   level: number,
   duration: number
 ): Decimal {
+  if (level === 0) {
+    // nu run for this dungeon
+    return new Decimal(0);
+  }
+
   const affixCount = getAffixCount(level);
 
   // gain or lose up to one level worth of score for being -40% to +40% of the timer
   const timerBonus = getTimerBonus(dungeon, duration);
+
+  if (timerBonus === null) {
+    // massive overtuning, no score
+    return new Decimal(0);
+  }
 
   // levels above 10 are worth 2 extra points (7 instead of 5)
   const nAboveTen = Math.max(level - 10, 0);
@@ -177,11 +187,16 @@ export function getTimeForKeyPlus(dungeon: DungeonDefinition, plus: 1 | 2 | 3) {
 export function getTimerBonus(
   dungeon: DungeonDefinition,
   duration: number
-): Decimal {
+): Decimal | null {
   const dungeonTimer = dungeon.plus1;
   const maxBonusTime = new Decimal(dungeonTimer).times(0.4);
   const beatTimerBy = dungeonTimer - duration;
   const bonus = new Decimal(beatTimerBy).dividedBy(maxBonusTime);
+
+  if (bonus.lessThan(-1)) {
+    // massive overtiming, no score, indicated by null
+    return null;
+  }
 
   return bonus.clamp(-1, 1);
 }

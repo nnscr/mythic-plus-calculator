@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "vitest --ui"
+    "test": "vitest --ui --api.host 0.0.0.0 --api.port 3001"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -23,7 +23,9 @@
     "@nuxtjs/tailwindcss": "^6.10.1",
     "@pinia/nuxt": "^0.5.1",
     "@vitest/ui": "^1.1.0",
+    "@vueuse/nuxt": "^10.7.1",
     "decimal.js": "^10.4.3",
+    "epic-spinners": "^2.0.0",
     "nuxt-icon": "^0.6.8"
   }
 }

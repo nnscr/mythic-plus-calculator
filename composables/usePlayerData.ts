@@ -5,36 +5,36 @@ import { type OverallDungeonTime } from "../utils/times";
 export const usePlayerData = defineStore("playerData", () => {
   const times: Record<DUNGEON_SHORTS, OverallDungeonTime> = reactive({
     EB: {
-      Tyrannical: { level: 24, plus: 1, duration: 1702196 },
-      Fortified: { level: 21, plus: 1, duration: 1876504 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     BRH: {
-      Tyrannical: { level: 24, plus: 2, duration: 1728706 },
-      Fortified: { level: 22, plus: 2, duration: 1636840 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     AD: {
-      Tyrannical: { level: 24, plus: 1, duration: 1617173 },
-      Fortified: { level: 22, plus: 2, duration: 1261927 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     WM: {
-      Tyrannical: { level: 22, plus: 2, duration: 1750256 },
-      Fortified: { level: 22, plus: 1, duration: 1794199 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     TOTT: {
-      Tyrannical: { level: 22, plus: 1, duration: 1713301 },
-      Fortified: { level: 22, plus: 1, duration: 1907494 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     RISE: {
-      Tyrannical: { level: 22, plus: 1, duration: 1801786 },
-      Fortified: { level: 22, plus: 1, duration: 2110938 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     DHT: {
-      Tyrannical: { level: 22, plus: 1, duration: 1534763 },
-      Fortified: { level: 21, plus: 2, duration: 1300294 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
     FALL: {
-      Tyrannical: { level: 21, plus: 1, duration: 1718329 },
-      Fortified: { level: 20, plus: 3, duration: 1212747 },
+      Tyrannical: { level: 0, plus: 0, duration: 0 },
+      Fortified: { level: 0, plus: 0, duration: 0 },
     },
   });
 

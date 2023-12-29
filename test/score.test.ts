@@ -486,6 +486,14 @@ describe("should calculate base scores correctly", async () => {
     [dungeons.TOTT, 2, 1026024, 45],
     [dungeons.WM, 2, 1352392, 44.9],
     [dungeons.EB, 2, 911873, 45],
+    // no score
+    [dungeons.AD, 0, 0, 0],
+    // massively overtimed
+    [dungeons.AD, 24, 9999999999, 0],
+    // almost massively overtimed
+    [dungeons.AD, 24, 2_521_398, 188],
+    // exactly massively overtimed
+    [dungeons.AD, 24, 2_521_399, 0],
   ];
 
   for (const x of tests) {
