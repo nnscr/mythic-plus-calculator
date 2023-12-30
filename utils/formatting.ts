@@ -18,3 +18,22 @@ export function round(value: number, precision = 1) {
   var multiplier = Math.pow(10, precision || 0);
   return Math.floor((value + 0.5) * multiplier) / multiplier;
 }
+
+export function classColor(className: string | undefined): string {
+  return (
+    {
+      "Death Knight": "#C41E3A",
+      "Demon Hunter": "#A330C9",
+      Druid: "#FF7D0A",
+      Hunter: "#ABD473",
+      Mage: "#69CCF0",
+      Monk: "#00FF96",
+      Paladin: "#F48CBA",
+      Priest: "#FFFFFF",
+      Rogue: "#FFF569",
+      Shaman: "#0070DE",
+      Warlock: "#9482C9",
+      Warrior: "#C79C6E",
+    }[className ?? ""] ?? "x"
+  );
+}

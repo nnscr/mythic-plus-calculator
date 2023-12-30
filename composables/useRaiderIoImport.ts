@@ -43,7 +43,7 @@ export function useUseRaiderIoImport() {
       }
     });
 
-    return timings;
+    return { timings, class: data.class as string };
   }
 
   function applyImport(

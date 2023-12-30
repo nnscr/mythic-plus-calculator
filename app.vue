@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { AtomSpinner } from "epic-spinners";
 import { dungeons, type DUNGEON_SHORTS } from "./utils/dungeons";
 
 useHead({
@@ -10,6 +11,10 @@ useHead({
 });
 
 const playerData = usePlayerData();
+
+onMounted(async () => {
+  playerData.loadFromStorage();
+});
 
 function setAll(level: number, week: "Tyrannical" | "Fortified") {
   for (const dungeon of Object.keys(dungeons)) {
@@ -24,32 +29,43 @@ const setAllLevel = ref(20);
 </script>
 
 <template>
-  <div>
-    <CharacterImportCard />
-
-    <div
-      class="flex flex-col text-center py-8 justify-center border border-dashed border-slate-600 text-white my-5"
-    >
-      <div class="text-2xl">Total Score</div>
-      <div class="text-5xl">
-        {{ playerData.playerScore.toFixed(1) }}
+  <ClientOnly>
+    <template #fallback>
+      <div class="grid place-center">
+        <div class="flex flex-col items-center justify-center fixed inset-0">
+          <AtomSpinner :animation-duration="1000" :size="60" color="#14b8a6" />
+          <b class="mt-5">Loading calculator</b>
+        </div>
       </div>
-    </div>
+    </template>
+    <div>
+      <div class="flex justify-between">
+        <CharacterImportCard />
 
-    <div class="flex flex-row items-center gap-1">
-      <div class="mr-3">Set all to level</div>
+        <div class="flex flex-row items-stretch gap-1 justify-end">
+          <div class="mr-3 flex items-center">Set all to level</div>
 
-      <input v-model="setAllLevel" class="input" />
-      <button class="button" @click="setAll(setAllLevel, 'Fortified')">
-        Fortified
-      </button>
-      <button class="button" @click="setAll(setAllLevel, 'Tyrannical')">
-        Tyrannical
-      </button>
-    </div>
+          <input v-model="setAllLevel" class="input w-14 text-center" />
+          <button class="button" @click="setAll(setAllLevel, 'Fortified')">
+            Fortified
+          </button>
+          <button class="button" @click="setAll(setAllLevel, 'Tyrannical')">
+            Tyrannical
+          </button>
+        </div>
+      </div>
 
-    <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />
-  </div>
+      <div
+        class="flex flex-col text-center py-8 justify-center border border-dashed border-slate-600 text-white my-5"
+      >
+        <div class="text-2xl">Total Score</div>
+        <div class="text-5xl">
+          {{ playerData.playerScore.toFixed(1) }}
+        </div>
+      </div>
+
+      <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" /></div
+  ></ClientOnly>
 </template>
 
 <style>
@@ -58,7 +74,7 @@ const setAllLevel = ref(20);
 }
 
 .button {
-  @apply rounded bg-teal-500 px-3 py-1 text-white;
+  @apply rounded bg-teal-600 px-3 py-1 text-white;
 }
 
 input.no-spin::-webkit-outer-spin-button,

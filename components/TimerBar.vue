@@ -21,7 +21,12 @@ function setTime(event: MouseEvent) {
   const percent = x / rect.width;
   const duration = Math.floor(props.dungeon.plus1 * percent);
 
-  props.time.duration = Math.min(props.dungeon.plus1, Math.max(0, duration));
+  requestAnimationFrame(() => {
+    props.time.duration = Math.min(
+      props.dungeon.plus1 - 1000,
+      Math.max(0, duration)
+    );
+  });
 }
 
 const bar = ref<HTMLDivElement>(null!);
@@ -87,21 +92,21 @@ function drag(event: MouseEvent) {
       ref="bar"
     >
       <div
-        class="absolute top-0 text-sm bg-lime-900 rounded text-right px-1 shadow-lg"
+        class="absolute top-0 text-sm bg-gradient-to-b from-lime-800 to-lime-900 rounded text-right px-1 shadow-lg"
         :style="{ width: `${plus1}%` }"
       >
         {{ formatSeconds(dungeon.plus1) }}
       </div>
 
       <div
-        class="absolute top-0 text-sm bg-lime-700 rounded text-right px-1 shadow-lg"
+        class="absolute top-0 text-sm bg-gradient-to-b from-lime-600 to-lime-700 rounded text-right px-1 shadow-lg"
         :style="{ width: `${plus2}%` }"
       >
         {{ formatSeconds(dungeon.plus2) }}
       </div>
 
       <div
-        class="absolute top-0 text-sm bg-lime-500 rounded text-right px-1 shadow-lg"
+        class="absolute top-0 text-sm bg-gradient-to-b from-lime-500 to-lime-600 rounded text-right px-1 shadow-lg"
         :style="{ width: `${plus3}%` }"
       >
         {{ formatSeconds(dungeon.plus3) }}

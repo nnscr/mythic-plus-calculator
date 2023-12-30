@@ -51,5 +51,59 @@ export const usePlayerData = defineStore("playerData", () => {
 
   const playerScore = computed(() => calculatePlayerScore(scores.value));
 
-  return { times, scores, playerScore } as const;
+  function loadFromStorage() {
+    if (!process.client) {
+      return;
+    }
+
+    const storage = JSON.parse(localStorage.getItem("playerData") ?? "{}");
+    if (storage && storage.times) {
+      for (const dungeon of Object.keys(storage.times)) {
+        const timings = storage.times[dungeon as DUNGEON_SHORTS];
+
+        if (!timings) {
+          continue;
+        }
+
+        for (const week of Object.keys(timings)) {
+          if (
+            !["Tyrannical", "Fortified"].includes(week) ||
+            !dungeons.hasOwnProperty(dungeon as DUNGEON_SHORTS)
+          ) {
+            continue;
+          }
+
+          const timing = timings[week as WeeklyAffix];
+
+          times[dungeon as DUNGEON_SHORTS][week as WeeklyAffix] = {
+            level: timing.level,
+            plus: timing.plus,
+            duration: timing.duration,
+          };
+        }
+      }
+    }
+
+    watch(
+      times,
+      () => {
+        localStorage.setItem("playerData", JSON.stringify({ times }));
+      },
+      { deep: true }
+    );
+  }
+
+  function reset() {
+    for (const dungeon of Object.keys(times)) {
+      for (const week of Object.keys(times[dungeon as DUNGEON_SHORTS])) {
+        times[dungeon as DUNGEON_SHORTS][week as WeeklyAffix] = {
+          level: 0,
+          plus: 0,
+          duration: 0,
+        };
+      }
+    }
+  }
+
+  return { times, scores, playerScore, loadFromStorage, reset } as const;
 });

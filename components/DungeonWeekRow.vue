@@ -14,8 +14,12 @@ const score = computed(() => playerData.scores[props.dungeon.short]);
 
 <template>
   <div
-    class="mb-2 rounded bg-slate-700 px-4 py-2 border-slate-600 border text-white"
-    :class="{ '!border-lime-500': score.higherScore === week }"
+    class="mb-2 rounded-lg px-4 py-2 text-white bg-gradient-to-br from-slate-700 to-slate-800 border-slate-900 border-2"
+    :class="{
+      '!from-slate-600 !to-slate-700 !border-teal-500':
+        score.higherScore === week && time.level > 0,
+      '': time.level === 0,
+    }"
   >
     <div class="flex flex-row gap-3 items-start">
       <div class="flex flex-col items-center px-10 text-center">
@@ -32,6 +36,9 @@ const score = computed(() => playerData.scores[props.dungeon.short]);
             type="number"
             v-model="time.level"
             class="input no-spin w-12 text-center"
+            :class="{
+              '!border-1 !border-rose-700': time.level === 0,
+            }"
           />
 
           <div class="cursor-pointer h-6" @click="time.level -= 1">
