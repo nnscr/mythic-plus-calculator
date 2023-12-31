@@ -14,9 +14,11 @@ const actual = computed(
 
 const inTime = computed(() => props.time.duration <= props.dungeon.plus1);
 
-function setTime(event: MouseEvent) {
+function setTime(event: MouseEvent | TouchEvent) {
   const rect = bar.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
+  const clientX =
+    event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+  const x = clientX - rect.left;
 
   const percent = x / rect.width;
   const duration = Math.floor(props.dungeon.plus1 * percent);
@@ -32,7 +34,7 @@ function setTime(event: MouseEvent) {
 const bar = ref<HTMLDivElement>(null!);
 const dragging = ref(false);
 
-useEventListener(document, "mousemove", (event) => {
+useEventListener(document, ["mousemove", "touchmove"], (event) => {
   if (!dragging.value) {
     return;
   }
@@ -40,18 +42,18 @@ useEventListener(document, "mousemove", (event) => {
   drag(event);
 });
 
-useEventListener(document, "mouseup", () => {
+useEventListener(document, ["mouseup", "touchend"], () => {
   dragging.value = false;
 });
 
-function startDragging(event: MouseEvent) {
+function startDragging(event: Event) {
   dragging.value = true;
 
   event.preventDefault();
   event.stopImmediatePropagation();
 }
 
-function drag(event: MouseEvent) {
+function drag(event: MouseEvent | TouchEvent) {
   setTime(event);
 
   event.preventDefault();
@@ -89,6 +91,7 @@ function drag(event: MouseEvent) {
       class="h-6 grow text-white relative"
       @click="setTime($event)"
       @mousedown="startDragging($event)"
+      @touchstart="startDragging($event)"
       ref="bar"
     >
       <div

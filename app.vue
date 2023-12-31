@@ -6,8 +6,18 @@ useHead({
   bodyAttrs: {
     class: "bg-slate-900 text-white",
   },
+  htmlAttrs: {
+    lang: "en",
+  },
   title: "Twinis M+ Calculator",
   link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
+  meta: [
+    {
+      name: "viewport",
+      content:
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+    },
+  ],
 });
 
 // const playerData = usePlayerData();
@@ -29,11 +39,11 @@ useHead({
     <div class="p-5">
       <div class="flex justify-between flex-col md:flex-row">
         <CharacterImportCard />
-        <SetAllButtons class="hidden md:flex" />
+        <SetAllButtons class="hidden 2xl:flex" />
       </div>
 
       <TotalScoreCard />
-      <SetAllButtons class="md:hidden my-5" />
+      <SetAllButtons class="2xl:hidden my-5" />
       <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />
     </div>
 

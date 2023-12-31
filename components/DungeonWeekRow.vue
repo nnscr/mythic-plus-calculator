@@ -46,7 +46,7 @@ const changed = computed(
 
     <div class="week-row">
       <div
-        class="week-row--level flex flex-col items-center md:px-10 text-center"
+        class="week-row--level flex flex-col items-center lg:px-4 xl:px-10 text-center"
       >
         <h3 class="text-xl h-8">{{ week }}</h3>
         <!-- {{ time.level }} -->
@@ -94,7 +94,7 @@ const changed = computed(
 
         <div class="flex flex-row items-center gap-2">
           <TimeInput v-model="time.duration"></TimeInput>
-          <div>
+          <div class="hidden xl:block">
             /
             {{ formatSeconds(dungeon.plus1) }}
           </div>

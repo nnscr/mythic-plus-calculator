@@ -55,8 +55,8 @@ async function importCharacter(
       <option value="us">US</option>
       <option value="tw">TW</option>
     </select>
-    <input type="text" v-model="realm" class="input" />
-    <input type="text" v-model="character" class="input" />
+    <input type="text" v-model="realm" class="input xl:w-48" />
+    <input type="text" v-model="character" class="input xl:w-40" />
     <button type="submit" class="button">Import</button>
     <button type="button" class="button" @click="playerData.newCharacter()">
       Clear
