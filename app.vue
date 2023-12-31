@@ -12,9 +12,9 @@ useHead({
 
 const playerData = usePlayerData();
 
-onMounted(async () => {
-  playerData.loadFromStorage();
-});
+// onMounted(async () => {
+//   playerData.loadFromStorage();
+// });
 
 function setAll(level: number, week: "Tyrannical" | "Fortified") {
   for (const dungeon of Object.keys(dungeons)) {
