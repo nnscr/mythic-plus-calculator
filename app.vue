@@ -4,7 +4,7 @@ import { dungeons, type DUNGEON_SHORTS } from "./utils/dungeons";
 
 useHead({
   bodyAttrs: {
-    class: "bg-slate-900 p-5 text-white",
+    class: "bg-slate-900 text-white",
   },
   title: "Twinis M+ Calculator",
   link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
@@ -38,7 +38,7 @@ const setAllLevel = ref(20);
         </div>
       </div>
     </template>
-    <div>
+    <div class="p-5">
       <div class="flex justify-between">
         <CharacterImportCard />
 
@@ -64,8 +64,45 @@ const setAllLevel = ref(20);
         </div>
       </div>
 
-      <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" /></div
-  ></ClientOnly>
+      <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />
+    </div>
+
+    <div class="bg-gradient-to-t from-black to-slate-900 px-20 py-10 mt-8">
+      <div>
+        Made in 🇩🇪 by Twini / Allonsy (EU-Tirion) with help from members of
+        <a
+          href="https://raider.io/guilds/eu/arthas/D%C3%ADe%20schwarze%20Rose"
+          class="link"
+          target="_blank"
+          >Díe schwarze Rose</a
+        >
+        (looking for members).
+      </div>
+
+      <div>
+        For bug reports or feature requests, join our
+        <a href="https://discord.gg/XYJXrJSEGj" target="_blank" class="link"
+          ><Icon name="ic:baseline-discord"></Icon> Discord</a
+        >
+        or open an issue on
+        <a
+          href="https://github.com/nnscr/mythic-utils"
+          target="_blank"
+          class="link"
+          ><Icon name="mdi:github"></Icon> Github</a
+        >.
+      </div>
+
+      <div class="mt-3">
+        Character import using API from
+        <a href="https://raider.io/" target="_blank" class="link">raider.io</a>.
+        Hosted on
+        <a href="https://vercel.com" target="_blank" class="link">
+          <Icon name="ion:logo-vercel"></Icon> Vercel
+        </a>
+      </div>
+    </div>
+  </ClientOnly>
 </template>
 
 <style>
@@ -75,6 +112,10 @@ const setAllLevel = ref(20);
 
 .button {
   @apply rounded bg-teal-600 px-3 py-1 text-white;
+}
+
+.link {
+  @apply text-teal-600;
 }
 
 input.no-spin::-webkit-outer-spin-button,

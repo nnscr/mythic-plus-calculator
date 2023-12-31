@@ -31,7 +31,7 @@ export function calculateBaseScore(
   level: number,
   duration: number
 ): Decimal {
-  if (level === 0) {
+  if (level <= 0) {
     // nu run for this dungeon
     return new Decimal(0);
   }

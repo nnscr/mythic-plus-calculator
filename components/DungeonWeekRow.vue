@@ -36,12 +36,17 @@ const score = computed(() => playerData.scores[props.dungeon.short]);
             type="number"
             v-model="time.level"
             class="input no-spin w-12 text-center"
+            min="0"
+            step="1"
             :class="{
-              '!border-1 !border-rose-700': time.level === 0,
+              '!border-1 !border-rose-700': time.level <= 0,
             }"
           />
 
-          <div class="cursor-pointer h-6" @click="time.level -= 1">
+          <div
+            class="cursor-pointer h-6"
+            @click="time.level = Math.max(0, time.level - 1)"
+          >
             <Icon name="octicon:chevron-down-12"></Icon>
           </div>
         </div>
