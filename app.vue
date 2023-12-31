@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AtomSpinner } from "epic-spinners";
-import { dungeons, type DUNGEON_SHORTS } from "./utils/dungeons";
+import { dungeons } from "./utils/dungeons";
 
 useHead({
   bodyAttrs: {
@@ -10,25 +10,10 @@ useHead({
   link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
 });
 
-const playerData = usePlayerData();
-
+// const playerData = usePlayerData();
 // onMounted(async () => {
 //   playerData.loadFromStorage();
 // });
-
-function setAll(level: number, week: "Tyrannical" | "Fortified") {
-  for (const dungeon of Object.keys(dungeons)) {
-    if (
-      playerData.hypotheticalTimes[dungeon as DUNGEON_SHORTS][week].level >=
-      level
-    ) {
-      continue;
-    }
-
-    playerData.hypotheticalTimes[dungeon as DUNGEON_SHORTS][week].level = level;
-  }
-}
-const setAllLevel = ref(20);
 </script>
 
 <template>
@@ -42,27 +27,19 @@ const setAllLevel = ref(20);
       </div>
     </template>
     <div class="p-5">
-      <div class="flex justify-between">
+      <div class="flex justify-between flex-col md:flex-row">
         <CharacterImportCard />
-
-        <div class="flex flex-row items-stretch gap-1 justify-end">
-          <div class="mr-3 flex items-center">Set all to level</div>
-
-          <input v-model="setAllLevel" class="input w-14 text-center" />
-          <button class="button" @click="setAll(setAllLevel, 'Fortified')">
-            Fortified
-          </button>
-          <button class="button" @click="setAll(setAllLevel, 'Tyrannical')">
-            Tyrannical
-          </button>
-        </div>
+        <SetAllButtons class="hidden md:flex" />
       </div>
 
       <TotalScoreCard />
+      <SetAllButtons class="md:hidden my-5" />
       <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />
     </div>
 
-    <div class="bg-gradient-to-t from-black to-slate-900 px-20 py-10 mt-8">
+    <div
+      class="bg-gradient-to-t from-black to-slate-900 px-6 md:px-20 py-10 mt-8"
+    >
       <div>
         Made in 🇩🇪 by Twini / Allonsy (EU-Tirion) with help from members of
         <a
@@ -102,11 +79,11 @@ const setAllLevel = ref(20);
 
 <style>
 .input {
-  @apply bg-slate-800 text-white px-3 border border-slate-700 rounded h-10;
+  @apply bg-slate-800 text-white px-3 py-2 border border-slate-700 rounded h-10 appearance-none h-auto;
 }
 
 .button {
-  @apply rounded bg-teal-600 px-3 py-1 text-white;
+  @apply rounded bg-teal-600 px-3 py-2 text-white;
 }
 
 .link {

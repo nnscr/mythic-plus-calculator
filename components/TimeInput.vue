@@ -32,13 +32,13 @@ const seconds = computed({
   <div class="inline-flex w-24 flex-row gap-2 items-center input !p-0">
     <input
       type="number"
-      class="w-9 text-center bg-transparent border-0 pl-2 py-1 no-spin"
+      class="w-9 text-center bg-transparent border-0 pl-2 py-2 no-spin"
       v-model="minutes"
     />
     <span>:</span>
     <input
       type="number"
-      class="w-9 text-center bg-transparent border-0 pr-2 py-1 no-spin"
+      class="w-9 text-center bg-transparent border-0 pr-2 py-2 no-spin"
       v-model="seconds"
     />
   </div>

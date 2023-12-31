@@ -47,12 +47,13 @@ async function importCharacter(
 
 <template>
   <form
-    class="text-black flex gap-1"
+    class="text-black flex gap-1 md:flex-row flex-col"
     @submit.prevent="importCharacter(region, realm, character)"
   >
     <select v-model="region" class="input">
       <option value="eu">EU</option>
       <option value="us">US</option>
+      <option value="tw">TW</option>
     </select>
     <input type="text" v-model="realm" class="input" />
     <input type="text" v-model="character" class="input" />
@@ -61,23 +62,26 @@ async function importCharacter(
       Clear
     </button>
 
-    <button
-      @click="importCharacter(char.region, char.realm, char.name)"
-      class="button flex items-center border-l-[32px]"
-      type="button"
-      v-for="char of characterHistory.list.value"
-      :style="{ borderColor: classColor(char.class) }"
-    >
-      <Icon
-        name="fa:times"
-        class="-ml-9 mr-4"
-        @click.prevent.stop="characterHistory.remove(char)"
-      ></Icon>
+    <div class="flex flex-row gap-2 my-3 md:my-0">
+      <button
+        @click="importCharacter(char.region, char.realm, char.name)"
+        class="button flex items-center border-l-[32px]"
+        type="button"
+        v-for="char of characterHistory.list.value"
+        :style="{ borderColor: classColor(char.class) }"
+      >
+        <Icon
+          name="fa:times"
+          class="-ml-9 mr-4"
+          :class="char.class === 'Priest' ? 'text-slate-700' : ''"
+          @click.prevent.stop="characterHistory.remove(char)"
+        ></Icon>
 
-      <span>
-        {{ char.name }}
-      </span>
-    </button>
+        <span>
+          {{ char.name }}
+        </span>
+      </button>
+    </div>
   </form>
 
   <Transition

@@ -4,10 +4,10 @@ const playerData = usePlayerData();
 
 <template>
   <div
-    class="flex flex-row text-center py-8 justify-center border border-dashed border-slate-600 text-white my-5 items-stretch"
+    class="flex flex-col md:flex-row text-center justify-center border border-dashed border-slate-600 text-white my-5 items-stretch md:py-8"
   >
     <div
-      class="pr-5 mr-5 border-r border-dashed border-slate-600 grow basis-1"
+      class="md:pr-5 md:mr-5 border-b pb-5 md:pb-0 md:border-b-0 md:border-r mt-5 md:mt-0 border-dashed border-slate-600 grow basis-1"
       v-if="playerData.isImportedCharacter"
     >
       <!-- <div class="text-slate-500 text-sm">
@@ -60,7 +60,7 @@ const playerData = usePlayerData();
     </div>
     <div
       v-if="playerData.isImportedCharacter"
-      class="pl-5 ml-5 border-l border-dashed border-slate-600 grow flex flex-col justify-center basis-1 tabular-nums"
+      class="md:mr-5 border-t pb-5 md:pb-0 md:border-t-0 md:border-l border-dashed border-slate-600 grow flex flex-col justify-center basis-1 tabular-nums"
     >
       <div class="text-xl h-8"></div>
       <div class="text-2xl">
