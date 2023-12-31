@@ -31,9 +31,9 @@ async function importCharacter(
   try {
     const data = await raiderIoImport.runImport(region, realm, character);
 
-    characterHistory.save(region, realm, character, data.class);
+    characterHistory.save(data.characterInfo);
 
-    raiderIoImport.applyImport(data.timings);
+    raiderIoImport.applyImport(data.timings, data.characterInfo);
     raiderIoImport.checkScores(data.timings);
     // await new Promise((r) => setTimeout(r, 2000));
     // throw new Error("Failed to load character");
@@ -57,8 +57,8 @@ async function importCharacter(
     <input type="text" v-model="realm" class="input" />
     <input type="text" v-model="character" class="input" />
     <button type="submit" class="button">Import</button>
-    <button type="button" class="button" @click="playerData.reset()">
-      Reset
+    <button type="button" class="button" @click="playerData.newCharacter()">
+      Clear
     </button>
 
     <button
@@ -66,7 +66,7 @@ async function importCharacter(
       class="button flex items-center border-l-[32px]"
       type="button"
       v-for="char of characterHistory.list.value"
-      :style="{ borderColor: classColor(char.characterClass) }"
+      :style="{ borderColor: classColor(char.class) }"
     >
       <Icon
         name="fa:times"

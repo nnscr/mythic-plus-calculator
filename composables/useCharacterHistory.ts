@@ -1,29 +1,14 @@
-export interface CharacterName {
-  name: string;
-  realm: string;
-  region: string;
-  characterClass: string;
-}
+import type { CharacterInfo } from "./usePlayerData";
 
 export function useCharacterHistory() {
-  const list = useLocalStorage<CharacterName[]>("characterHistory", []);
+  const list = useLocalStorage<CharacterInfo[]>("characterHistory", []);
 
-  function save(
-    region: string,
-    realm: string,
-    name: string,
-    characterClass: string
-  ) {
-    list.value = list.value.filter(
-      (char) => !compare(char, { name, realm, region, characterClass })
-    );
-    list.value = [
-      { name, realm, region, characterClass },
-      ...list.value,
-    ].splice(0, 6);
+  function save(characterInfo: CharacterInfo) {
+    list.value = list.value.filter((char) => !compare(char, characterInfo));
+    list.value = [characterInfo, ...list.value].splice(0, 6);
   }
 
-  function compare(infoA: CharacterName, infoB: CharacterName) {
+  function compare(infoA: CharacterInfo, infoB: CharacterInfo) {
     return (
       infoA.name === infoB.name &&
       infoA.realm === infoB.realm &&
@@ -31,7 +16,7 @@ export function useCharacterHistory() {
     );
   }
 
-  function remove(info: CharacterName) {
+  function remove(info: CharacterInfo) {
     list.value = list.value.filter((char) => !compare(char, info));
   }
 

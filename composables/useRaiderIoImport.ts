@@ -1,10 +1,11 @@
 import { dungeons } from "~/utils/dungeons";
 import type { WeeklyAffix } from "~/utils/times";
+import type { CharacterInfo } from "./usePlayerData";
 
 export function useUseRaiderIoImport() {
   async function runImport(region: string, realm: string, character: string) {
     const res = await fetch(
-      `https://raider.io/api/v1/characters/profile?region=${region}&realm=${realm}&name=${character}&fields=mythic_plus_best_runs,mythic_plus_alternate_runs`
+      `https://raider.io/api/v1/characters/profile?region=${region}&realm=${realm}&name=${character}&fields=mythic_plus_best_runs,mythic_plus_alternate_runs,guild`
     );
     const data = await res.json();
     const allRuns = [
@@ -43,21 +44,44 @@ export function useUseRaiderIoImport() {
       }
     });
 
-    return { timings, class: data.class as string };
+    const characterInfo: CharacterInfo = {
+      region: data.region,
+      realm: data.realm,
+      name: data.name,
+      class: data.class as CharacterClasses,
+      spec: data.active_spec_name,
+      thumbnailUrl: data.thumbnail_url,
+      guildName: data.guild?.name,
+    };
+
+    return { timings, characterInfo };
   }
 
   function applyImport(
-    newDungeonData: Record<DUNGEON_SHORTS, OverallDungeonTime>
+    newDungeonData: Record<DUNGEON_SHORTS, OverallDungeonTime>,
+    characterInfo: CharacterInfo
   ) {
     const playerData = usePlayerData();
 
     for (const [dungeon, timings] of Object.entries(newDungeonData)) {
       for (const [week, timing] of Object.entries(timings)) {
-        playerData.times[dungeon as DUNGEON_SHORTS][week as WeeklyAffix] = {
+        playerData.originalTimes[dungeon as DUNGEON_SHORTS][
+          week as WeeklyAffix
+        ] = {
           level: timing.level,
           plus: timing.plus,
           duration: timing.duration,
         };
+
+        playerData.hypotheticalTimes[dungeon as DUNGEON_SHORTS][
+          week as WeeklyAffix
+        ] = {
+          level: timing.level,
+          plus: timing.plus,
+          duration: timing.duration,
+        };
+
+        playerData.setCharacterInfo(characterInfo);
       }
     }
   }
@@ -70,9 +94,11 @@ export function useUseRaiderIoImport() {
     // check if calculated player scores matches the ones from raider.io
     for (const [dungeon, timings] of Object.entries(newDungeonData)) {
       const fortified =
-        playerData.scores[dungeon as DUNGEON_SHORTS].baseScore.Fortified;
+        playerData.originalScores[dungeon as DUNGEON_SHORTS].baseScore
+          .Fortified;
       const tyrannical =
-        playerData.scores[dungeon as DUNGEON_SHORTS].baseScore.Tyrannical;
+        playerData.originalScores[dungeon as DUNGEON_SHORTS].baseScore
+          .Tyrannical;
 
       const expectedFortified =
         newDungeonData[dungeon as DUNGEON_SHORTS].Fortified.score;

@@ -8,7 +8,12 @@ const props = defineProps<{
 }>();
 
 const playerData = usePlayerData();
-const scores = computed(() => playerData.scores[props.dungeon.short]);
+const hypotheticalScores = computed(
+  () => playerData.hypotheticalScores[props.dungeon.short]
+);
+const originalScores = computed(
+  () => playerData.originalScores[props.dungeon.short]
+);
 
 // const tyrannicalScore = computed(() =>
 //   calculateScore(
@@ -61,8 +66,12 @@ const scores = computed(() => playerData.scores[props.dungeon.short]);
           >
             <div class="opacity-70">Rating</div>
             <div class="text-3xl">
-              {{ scores.totalScore }}
+              {{ hypotheticalScores.totalScore }}
             </div>
+            <RelativeScore
+              :hypothetical-score="hypotheticalScores.totalScore"
+              :original-score="originalScores.totalScore"
+            />
           </h2>
         </div>
       </div>

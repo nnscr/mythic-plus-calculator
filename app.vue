@@ -18,11 +18,14 @@ onMounted(async () => {
 
 function setAll(level: number, week: "Tyrannical" | "Fortified") {
   for (const dungeon of Object.keys(dungeons)) {
-    if (playerData.times[dungeon as DUNGEON_SHORTS][week].level >= level) {
+    if (
+      playerData.hypotheticalTimes[dungeon as DUNGEON_SHORTS][week].level >=
+      level
+    ) {
       continue;
     }
 
-    playerData.times[dungeon as DUNGEON_SHORTS][week].level = level;
+    playerData.hypotheticalTimes[dungeon as DUNGEON_SHORTS][week].level = level;
   }
 }
 const setAllLevel = ref(20);
@@ -55,15 +58,7 @@ const setAllLevel = ref(20);
         </div>
       </div>
 
-      <div
-        class="flex flex-col text-center py-8 justify-center border border-dashed border-slate-600 text-white my-5"
-      >
-        <div class="text-2xl">Total Score</div>
-        <div class="text-5xl">
-          {{ playerData.playerScore.toFixed(1) }}
-        </div>
-      </div>
-
+      <TotalScoreCard />
       <DungeonCard v-for="dungeon of dungeons" :dungeon="dungeon" />
     </div>
 
