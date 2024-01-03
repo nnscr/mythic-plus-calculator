@@ -17,7 +17,7 @@ const playerData = usePlayerData();
       </div> -->
       <img
         :src="playerData.characterInfo.thumbnailUrl"
-        class="w-24 h-24 mx-auto mb-3 rounded-2xl"
+        class="w-24 h-24 mx-auto mb-3 rounded-xl"
       />
 
       <div class="text-3xl">
