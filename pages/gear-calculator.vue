@@ -92,7 +92,7 @@ const totalOneHand = computed(() => {
                                 type="number"
                                 v-model.number="itemLevels[slot]"
                             />
-                            <div>{{ labels[slot] }} {{ itemLevels[slot] }}</div>
+                            <div>{{ labels[slot] }}</div>
                         </div>
                     </div>
 
