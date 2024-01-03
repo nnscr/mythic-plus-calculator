@@ -42,29 +42,29 @@ const useTwoHand = useSessionStorage("itemLevels.useTwoHand", false);
 
 const equipmentLevels = computed(() => {
     return (
-        (itemLevels.value.head ?? 0) +
-        (itemLevels.value.neck ?? 0) +
-        (itemLevels.value.shoulder ?? 0) +
-        (itemLevels.value.back ?? 0) +
-        (itemLevels.value.chest ?? 0) +
-        (itemLevels.value.wrist ?? 0) +
-        (itemLevels.value.hands ?? 0) +
-        (itemLevels.value.waist ?? 0) +
-        (itemLevels.value.legs ?? 0) +
-        (itemLevels.value.feet ?? 0) +
-        (itemLevels.value.finger1 ?? 0) +
-        (itemLevels.value.finger2 ?? 0) +
-        (itemLevels.value.trinket1 ?? 0) +
-        (itemLevels.value.trinket2 ?? 0)
+        (itemLevels.value.head || 0) +
+        (itemLevels.value.neck || 0) +
+        (itemLevels.value.shoulder || 0) +
+        (itemLevels.value.back || 0) +
+        (itemLevels.value.chest || 0) +
+        (itemLevels.value.wrist || 0) +
+        (itemLevels.value.hands || 0) +
+        (itemLevels.value.waist || 0) +
+        (itemLevels.value.legs || 0) +
+        (itemLevels.value.feet || 0) +
+        (itemLevels.value.finger1 || 0) +
+        (itemLevels.value.finger2 || 0) +
+        (itemLevels.value.trinket1 || 0) +
+        (itemLevels.value.trinket2 || 0)
     );
 });
 
 const totalTwoHand = computed(() => {
-    return (equipmentLevels.value + (itemLevels.value.mainhand ?? 0) + (itemLevels.value.mainhand ?? 0)) / 16;
+    return (equipmentLevels.value + (itemLevels.value.mainhand || 0) + (itemLevels.value.mainhand || 0)) / 16;
 });
 
 const totalOneHand = computed(() => {
-    return (equipmentLevels.value + (itemLevels.value.mainhand ?? 0) + (itemLevels.value.offhand ?? 0)) / 16;
+    return (equipmentLevels.value + (itemLevels.value.mainhand || 0) + (itemLevels.value.offhand || 0)) / 16;
 });
 </script>
 
@@ -92,7 +92,7 @@ const totalOneHand = computed(() => {
                                 type="number"
                                 v-model.number="itemLevels[slot]"
                             />
-                            <div>{{ labels[slot] }}</div>
+                            <div>{{ labels[slot] }} {{ itemLevels[slot] }}</div>
                         </div>
                     </div>
 
