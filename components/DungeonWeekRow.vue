@@ -24,7 +24,6 @@ const changed = computed(
         class="mb-2 rounded-lg px-4 py-2 text-white bg-gradient-to-br from-slate-700 to-slate-800 border-slate-900 border-2 relative"
         :class="{
             '!from-slate-600 !to-slate-700 !border-teal-500': hypotheticalScore.higherScore === week && time.level > 0,
-            '': time.level === 0,
         }"
     >
         <div
